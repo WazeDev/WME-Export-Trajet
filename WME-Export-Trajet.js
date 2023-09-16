@@ -1,5 +1,3 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable camelcase */
 /* eslint-disable max-len */
 // ==UserScript==
 // @name             WME Export Trajet
@@ -31,7 +29,7 @@
     const SCRIPT_NAME = GM_info.script.name;
 
     const WMEExpT = {};
-    const icon_export = 'iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wgBFAggT+iJkgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAADUklEQVR42u2dTWsTURSGn5lOrEoJVYsff0AqUhHEreBW40IR/FiJKze6cV2NuhFdiFgQXLgQf0ARXIk7t3UhLYp/QBTFEksbmibjYk4kxHSMucn96JwXhtAmTU6fOfecc++cuYmwoxIQ459aQMPkDSILRk4CN4EZDwEuAQ+BZTxVCbgH/ACaHh4/gUdykr3UODAvxqaeHkYQY1STwBXg9iAQEwcG14AFYMXBZ1c2ifttiAB3/icmugC4AFwWI1OLoeRlF7waUDaF6ALgihhXd1CydOo5cNUUoqsYmDr63E6I0wKxZhITi5xEGsB9U4hFz8LLMlQHhqhljCFEBWgIUQEaQlSAhhAVoCHEpMCgJoBdspjQrTUpccgptleBapEBHpPpXd6cvJQzYzkMxEUGWAZO9vG6U3klYJEBDpIDWt1/U5Qk0iJbvq8N+42L4oENsmsfMNi1mRjYAM4UFWC7PKkOOOrGgRdF9sBOT3QaRFUKUAEqQAWoUoAKUAH2rW3ADux0km05gBGwBzgnj5ECHGwadR64AUz5BjEEgBGwl2xR87pvEENJIjFwwEeIIWVhLyGOejVmA7jI8DqxOiECPAG+465ZaeQA273Io/JE5xCTnMA9JsZGjkfIPmB7DsQImAO+uYDYC+AYWe9cBTgC7HQIMQH2AwdzPPGaQL4FfLUNMenhedPAXeAE2fVP14km/sdzU8AF+XnWticmPbyvIvCmAsrQZeCseOBjiYlOzm4sw2UiwHn9buAScBqL13q6AbaAz7i5BcFU68Ai8H4Emb9vgE3gNfBOhsFGIPDqwBuJ3R9dxsBUDJjtysKuEsmYZNhDYkcevCrwwfZJTzYpfpeAT/IPuJ4pzQBPgaO+wcsrpFMxxvUQXpfMWvcRXmiLCd7BswGw1+2ur+T3wcML0QO9gmdjNWaYWgXe+gQvJIBrHXWeN/BCAdiUwn7eN3ghAEzJGiOfAV9sTtG2kgf+kiP10bgQAKY+G6e9MQpQASpABahSgApQASpAlQJUgApQAaoUoAIMSC7WA/M2vPFVk2zSseYCYD8b3vimCeB4rxHrAmC/G94EEe4Sn4zRJPK3RrbhjWPVyJo5W6P2QNMNb3zVIvAAaNi6faHE1iqZ/nyNxm/UEhZ+/DhJcwAAAABJRU5ErkJggg==';
+    const iconExport = 'iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wgBFAggT+iJkgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAADUklEQVR42u2dTWsTURSGn5lOrEoJVYsff0AqUhHEreBW40IR/FiJKze6cV2NuhFdiFgQXLgQf0ARXIk7t3UhLYp/QBTFEksbmibjYk4kxHSMucn96JwXhtAmTU6fOfecc++cuYmwoxIQ459aQMPkDSILRk4CN4EZDwEuAQ+BZTxVCbgH/ACaHh4/gUdykr3UODAvxqaeHkYQY1STwBXg9iAQEwcG14AFYMXBZ1c2ifttiAB3/icmugC4AFwWI1OLoeRlF7waUDaF6ALgihhXd1CydOo5cNUUoqsYmDr63E6I0wKxZhITi5xEGsB9U4hFz8LLMlQHhqhljCFEBWgIUQEaQlSAhhAVoCHEpMCgJoBdspjQrTUpccgptleBapEBHpPpXd6cvJQzYzkMxEUGWAZO9vG6U3klYJEBDpIDWt1/U5Qk0iJbvq8N+42L4oENsmsfMNi1mRjYAM4UFWC7PKkOOOrGgRdF9sBOT3QaRFUKUAEqQAWoUoAKUAH2rW3ADux0km05gBGwBzgnj5ECHGwadR64AUz5BjEEgBGwl2xR87pvEENJIjFwwEeIIWVhLyGOejVmA7jI8DqxOiECPAG+465ZaeQA273Io/JE5xCTnMA9JsZGjkfIPmB7DsQImAO+uYDYC+AYWe9cBTgC7HQIMQH2AwdzPPGaQL4FfLUNMenhedPAXeAE2fVP14km/sdzU8AF+XnWticmPbyvIvCmAsrQZeCseOBjiYlOzm4sw2UiwHn9buAScBqL13q6AbaAz7i5BcFU68Ai8H4Emb9vgE3gNfBOhsFGIPDqwBuJ3R9dxsBUDJjtysKuEsmYZNhDYkcevCrwwfZJTzYpfpeAT/IPuJ4pzQBPgaO+wcsrpFMxxvUQXpfMWvcRXmiLCd7BswGw1+2ur+T3wcML0QO9gmdjNWaYWgXe+gQvJIBrHXWeN/BCAdiUwn7eN3ghAEzJGiOfAV9sTtG2kgf+kiP10bgQAKY+G6e9MQpQASpABahSgApQASpAlQJUgApQAaoUoAIMSC7WA/M2vPFVk2zSseYCYD8b3vimCeB4rxHrAmC/G94EEe4Sn4zRJPK3RrbhjWPVyJo5W6P2QNMNb3zVIvAAaNi6faHE1iqZ/nyNxm/UEhZ+/DhJcwAAAABJRU5ErkJggg==';
     let lang = {};
     let userName;
     WMEExpT.Trajets = { list: {}, objects: {} };
@@ -40,7 +38,7 @@
     let resultRequest = {};
 
     const debug = false;
-    let WME_FixUI_run = false;
+    let wmeFixUIrun = false;
 
     // *********************
     // ** HELPER FUNCTION **
@@ -54,7 +52,7 @@
         return document.getElementById(node);
     }
     function getElementsByClassName(classname, node) {
-        if (!node) node = document.getElementsByTagName('body')[0];
+        if (!node) [node] = document.getElementsByTagName('body');
         const a = [];
         const re = new RegExp(`\\b${classname}\\b`);
         const els = node.getElementsByTagName('*');
@@ -86,40 +84,40 @@
     // *************
     // **  INIT   **
     // *************
-    function WMEExpT_bootstrap() {
+    function bootstrap() {
         if (WazeWrap.Ready) {
-            WMEExpT_init();
+            initialize();
         } else {
-            setTimeout(WMEExpT_bootstrap, 200);
+            setTimeout(bootstrap, 200);
         }
     }
 
-    function WMEExpT_init() {
+    function initialize() {
         //    Waze GUI needed
 
-        const WMEExpT_userInfo = getId('user-info');
-        if (typeof (WMEExpT_userInfo) === 'undefined') {
+        const userInfo = getId('user-info');
+        if (typeof (userInfo) === 'undefined') {
             if (debug) { console.error('WME Export Trajet - WMEExpT_userInfo : NOK'); }
-            setTimeout(WMEExpT_init, 500);
+            setTimeout(initialize, 500);
             return;
         }
-        const WMEExpT_navTabs = getElementsByClassName('nav-tabs', WMEExpT_userInfo)[0];
-        if (typeof (WMEExpT_navTabs) === 'undefined') {
+        const navTabs = getElementsByClassName('nav-tabs', userInfo)[0];
+        if (typeof (navTabs) === 'undefined') {
             if (debug) { console.error('WME Export Trajet - WMEExpT_navTabs : NOK'); }
-            setTimeout(WMEExpT_init, 500);
+            setTimeout(initialize, 500);
             return;
         }
-        const WMEExpT_tabContent = getElementsByClassName('tab-content', WMEExpT_userInfo)[0];
-        if (typeof (WMEExpT_tabContent) === 'undefined') {
+        const tabContent = getElementsByClassName('tab-content', userInfo)[0];
+        if (typeof (tabContent) === 'undefined') {
             if (debug) { console.error('WME Export Trajet - WMEExpT_tabContent : NOK'); }
-            setTimeout(WMEExpT_init, 500);
+            setTimeout(initialize, 500);
             return;
         }
 
-        const WMEExpTDrives = getId('sidepanel-drives');
-        if (typeof (WMEExpTDrives) === 'undefined') {
+        const drivesPanel = getId('sidepanel-drives');
+        if (typeof (drivesPanel) === 'undefined') {
             if (debug) { console.error('WME Export Trajet - WMEExpTDrives : NOK'); }
-            setTimeout(WMEExpT_init, 1000);
+            setTimeout(initialize, 1000);
             return;
         }
 
@@ -146,18 +144,18 @@
       */
         // reload after changing WME units
         W.prefs.on('change:isImperial', () => {
-            WMEExpT_html();
+            buildUI();
         });
 
         // Then running
-        WMEExpT_css();
+        buildCSS();
     }
 
     // *************
     // **  HTML   **
     // *************
 
-    function WMEExpT_css() {
+    function buildCSS() {
         const Scss = document.createElement('style');
         Scss.type = 'text/css';
         let css = '.CSETcontent {width:auto; height:100px; box-shadow: 1px 4px 10px #40A497; border:2px solid #40A497;}';
@@ -167,10 +165,10 @@
         Scss.innerHTML = css;
         document.body.appendChild(Scss);
         log('CSS Ok');
-        WMEExpT_html();
+        buildUI();
     }
 
-    function WMEExpT_html() {
+    function buildUI() {
         const WMEExpTDrives = getId('sidepanel-drives');
 
         const addon = document.createElement('div', 'ExpT-cotent');
@@ -182,7 +180,7 @@
         content += "<div id='selTypeExport' style='height:30px; margin-left:10px; margin-top:5px; clear:both; padding-top:10px;'>";
         content += "<div class='divl' style='width:60px;'><input type='radio' id='gpx' value='GPX' checked>&nbspGPX</div>";
         content += "<div class='divl' style='width:60px;'><input type='radio' id='kml' value='KML'>&nbspKML</div>";
-        content += `<div class='divl' style='width:20px;'><a href='#' id='exportTrajet'><img style='width:20px;' title='${lang[0]}' src='data:image/png;base64,${icon_export}' /></a></div></div></div>`;
+        content += `<div class='divl' style='width:20px;'><a href='#' id='exportTrajet'><img style='width:20px;' title='${lang[0]}' src='data:image/png;base64,${iconExport}' /></a></div></div></div>`;
         addon.innerHTML = content;
         WMEExpTDrives.appendChild(addon);
 
@@ -202,33 +200,33 @@
     }
 
     function updateTrajetsList() {
-        WME_FixUI_run = (getId('sidepanel-FixUI') != null);
-        log('WME_FixUI_run', WME_FixUI_run);
+        wmeFixUIrun = (getId('sidepanel-FixUI') != null);
+        log('WME_FixUI_run', wmeFixUIrun);
 
-        const available_Trajets = getElementsByClassName('result session session-available');
-        if (typeof (available_Trajets) === 'undefined') {
+        const availableTrajets = getElementsByClassName('result session session-available');
+        if (typeof (availableTrajets) === 'undefined') {
             if (debug) { console.error('WME Export Trajet - available_Trajets : NOK'); }
             return;
         }
-        log('available_Trajets', available_Trajets);
+        log('available_Trajets', availableTrajets);
         const selectTrajet = getId('selectTrajet');
         selectTrajet.options.length = 1;
 
-        for (let i = 0; i < available_Trajets.length; i++) {
-            const trajetID = available_Trajets[i].dataset.id;
+        for (let i = 0; i < availableTrajets.length; i++) {
+            const trajetID = availableTrajets[i].dataset.id;
             const trajetDetail = {};
             let d;
             WMEExpT.Trajets.list[trajetID] = {
                 text: '', startDate: '', endDate: '', startTime: '', endTime: ''
             };
 
-            if (WME_FixUI_run) {
-                trajetDetail.DateTime = new Date(available_Trajets[i].childNodes[0].childNodes[0].textContent);
+            if (wmeFixUIrun) {
+                trajetDetail.DateTime = new Date(availableTrajets[i].childNodes[0].childNodes[0].textContent);
                 d = new Date(trajetDetail.DateTime);
                 trajetDetail.Date = `${d.getFullYear()}-${d.getMonth() + 1 > 9 ? d.getMonth() + 1 : `0${d.getMonth() + 1}`}-${d.getDate() > 9 ? d.getDate() : `0${d.getDate()}`}`;
                 trajetDetail.Time = `${d.getHours() > 9 ? d.getHours() : `0${d.getHours()}`}h${d.getMinutes() > 9 ? d.getMinutes() : `0${d.getMinutes()}`}`;
             } else {
-                trajetDetail.DateTime = available_Trajets[i].childNodes[0].childNodes[0].textContent;
+                trajetDetail.DateTime = availableTrajets[i].childNodes[0].childNodes[0].textContent;
                 trajetDetail.DateTime = trajetDetail.DateTime.split(',');
                 trajetDetail.Date = `${trajetDetail.DateTime[1].trim()}-${getMonthNumber(trajetDetail.DateTime[0].trim().split(' ')[0])}-${trajetDetail.DateTime[0].trim().split(' ')[1]}`;
                 trajetDetail.Time = trajetDetail.DateTime[2].replace(/:/g, 'h').trim();
@@ -239,8 +237,8 @@
 
             // trajetDetail.Time = available_Trajets[i].childNodes[1].childNodes[0].textContent;
             // trajetDetail.Time = trajetDetail.Time.substr(trajetDetail.DateTime.indexOf(":")-2).trim().replace(/\:/g,'h');
-            trajetDetail.dst = available_Trajets[i].childNodes[1].childNodes[0].textContent;
-            trajetDetail.tps = available_Trajets[i].childNodes[1].childNodes[1].textContent;
+            trajetDetail.dst = availableTrajets[i].childNodes[1].childNodes[0].textContent;
+            trajetDetail.tps = availableTrajets[i].childNodes[1].childNodes[1].textContent;
             log('trajetDetail.tps', trajetDetail.tps);
 
             log('trajetDetail', trajetDetail);
@@ -316,7 +314,7 @@
                 if (requestObject.readyState === 4) {
                     resultRequest = {};
                     resultRequest = JSON.parse(requestObject.responseText);
-                    WMEExpT.Trajets.objects[id] = resultRequest.archiveSessions.objects[0];
+                    [WMEExpT.Trajets.objects[id]] = resultRequest.archiveSessions.objects;
                     log(`New data download link ok: ${WMEExpT.Trajets.list[id].text}; id= ${id}`);
                     if (WMEExpT.typeExport === 'gpx') generateGpxFile(id);
                     if (WMEExpT.typeExport === 'kml') generateKmlFile(id);
@@ -476,5 +474,5 @@
     }
 
     /* begin running the code! */
-    WMEExpT_bootstrap();
+    bootstrap();
 })();

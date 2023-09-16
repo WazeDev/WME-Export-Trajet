@@ -79,6 +79,8 @@
         for (n = 1; n <= 12; n++) {
             if (mName === I18n.translations[I18n.locale].date.month_names[n]) { return n; }
         }
+        // TODO: handle null return value in callers
+        return null;
     }
 
     // *************
@@ -86,9 +88,9 @@
     // *************
     function WMEExpT_bootstrap() {
         if (WazeWrap.Ready) {
-          WMEExpT_init();
+            WMEExpT_init();
         } else {
-          setTimeout(WMEExpT_bootstrap, 200);
+            setTimeout(WMEExpT_bootstrap, 200);
         }
     }
 
@@ -223,13 +225,13 @@
             if (WME_FixUI_run) {
                 trajetDetail.DateTime = new Date(available_Trajets[i].childNodes[0].childNodes[0].textContent);
                 d = new Date(trajetDetail.DateTime);
-                trajetDetail.Date = `${d.getFullYear()}-${parseInt(d.getMonth() + 1) > 9 ? parseInt(d.getMonth() + 1) : `0${parseInt(d.getMonth() + 1)}`}-${d.getDate() > 9 ? d.getDate() : `0${d.getDate()}`}`;
+                trajetDetail.Date = `${d.getFullYear()}-${d.getMonth() + 1 > 9 ? d.getMonth() + 1 : `0${d.getMonth() + 1}`}-${d.getDate() > 9 ? d.getDate() : `0${d.getDate()}`}`;
                 trajetDetail.Time = `${d.getHours() > 9 ? d.getHours() : `0${d.getHours()}`}h${d.getMinutes() > 9 ? d.getMinutes() : `0${d.getMinutes()}`}`;
             } else {
                 trajetDetail.DateTime = available_Trajets[i].childNodes[0].childNodes[0].textContent;
                 trajetDetail.DateTime = trajetDetail.DateTime.split(',');
                 trajetDetail.Date = `${trajetDetail.DateTime[1].trim()}-${getMonthNumber(trajetDetail.DateTime[0].trim().split(' ')[0])}-${trajetDetail.DateTime[0].trim().split(' ')[1]}`;
-                trajetDetail.Time = trajetDetail.DateTime[2].replace(/\:/g, 'h').trim();
+                trajetDetail.Time = trajetDetail.DateTime[2].replace(/:/g, 'h').trim();
                 d = new Date(trajetDetail.Date);
                 d.setHours(trajetDetail.Time.split('h')[0], trajetDetail.Time.split('h')[1], 0);
             }
@@ -247,7 +249,7 @@
             // var d = new Date(trajetDetail.Date);
             // d.setHours(trajetDetail.Time.split("h")[0],trajetDetail.Time.split("h")[1],0);
             log('startTime d', d);
-            WMEExpT.Trajets.list[trajetID].startDate = `${d.getFullYear()}-${parseInt(d.getMonth() + 1) > 9 ? parseInt(d.getMonth() + 1) : `0${parseInt(d.getMonth() + 1)}`}-${d.getDate() > 9 ? d.getDate() : `0${d.getDate()}`}`;
+            WMEExpT.Trajets.list[trajetID].startDate = `${d.getFullYear()}-${d.getMonth() + 1 > 9 ? d.getMonth() + 1 : `0${d.getMonth() + 1}`}-${d.getDate() > 9 ? d.getDate() : `0${d.getDate()}`}`;
             WMEExpT.Trajets.list[trajetID].startTime = `${d.getHours() > 9 ? d.getHours() : `0${d.getHours()}`}:${d.getMinutes() > 9 ? d.getMinutes() : `0${d.getMinutes()}`}:${d.getSeconds() > 9 ? d.getSeconds() : `0${d.getSeconds()}`}`;
 
             // trajetDetail.tps = trajetDetail.tps.replace(" min",'').replace(" h ",':').split(":");
@@ -262,7 +264,7 @@
             log('trajetDetail.tps', trajetDetail.tps);
 
             let ms;
-            if (tps.length == 1) {
+            if (tps.length === 1) {
                 ms = tps[0] * 60000;
             } else {
                 ms = tps[0] * 3600000 + tps[1] * 60000;
@@ -271,7 +273,7 @@
             const d2 = new Date(d.getTime() + ms);
             log('tps d2', d2);
 
-            WMEExpT.Trajets.list[trajetID].endDate = `${d2.getFullYear()}-${parseInt(d2.getMonth() + 1) > 9 ? parseInt(d2.getMonth() + 1) : `0${parseInt(d2.getMonth() + 1)}`}-${d2.getDate() > 9 ? d2.getDate() : `0${d2.getDate()}`}`;
+            WMEExpT.Trajets.list[trajetID].endDate = `${d2.getFullYear()}-${d2.getMonth() + 1 > 9 ? d2.getMonth() + 1 : `0${d2.getMonth() + 1}`}-${d2.getDate() > 9 ? d2.getDate() : `0${d2.getDate()}`}`;
             WMEExpT.Trajets.list[trajetID].endTime = `${d2.getHours() > 9 ? d2.getHours() : `0${d2.getHours()}`}:${d2.getMinutes() > 9 ? d2.getMinutes() : `0${d2.getMinutes()}`}:${d2.getSeconds() > 9 ? d2.getSeconds() : `0${d2.getSeconds()}`}`;
 
             // WMEExpT.Trajets.list[trajetID].text = WMEExpT.Trajets.list[trajetID].startDate + " - " + trajetDetail.Time + " - " + trajetDetail.dst + " - " + trajetDetail.tps;
@@ -327,15 +329,15 @@
                 if (!WMEExpT.Trajets.objects[id].hasOwnProperty('gpx')) {
                     generateGpxFile(id);
                 } else if (WMEExpT.Trajets.objects[id].hasOwnProperty('gpx')) {
-                    log(`data download link ok: ${WMEExpT.Trajets.list[id].text}.gpx ` + `; id= ${id}`);
+                    log(`data download link ok: ${WMEExpT.Trajets.list[id].text}.gpx ; id= ${id}`);
                     getId('exportTrajet').setAttribute('download', `${userName} - ${WMEExpT.Trajets.list[id].text}.gpx`);
                     getId('exportTrajet').href = `data:Application/octet-stream,${encodeURIComponent(WMEExpT.Trajets.objects[id].gpx)}`;
                 }
-            } else if (WMEExpT.typeExport == 'kml') {
+            } else if (WMEExpT.typeExport === 'kml') {
                 if (!WMEExpT.Trajets.objects[id].hasOwnProperty('kml')) {
                     generateKmlFile(id);
                 } else if (WMEExpT.Trajets.objects[id].hasOwnProperty('kml')) {
-                    log(`data download link ok: ${WMEExpT.Trajets.list[id].text}.kml ` + `; id= ${id}`);
+                    log(`data download link ok: ${WMEExpT.Trajets.list[id].text}.kml ; id= ${id}`);
                     getId('exportTrajet').setAttribute('download', `${userName} - ${WMEExpT.Trajets.list[id].text}.kml`);
                     getId('exportTrajet').href = `data:Application/octet-stream,${encodeURIComponent(WMEExpT.Trajets.objects[id].kml)}`;
                 }
@@ -391,9 +393,9 @@
 
         for (let i = 0; i < traitementlonlat.length; i++) {
             for (let j = 0; j < traitementlonlat[i].geometry.coordinates.length; j++) {
-                if (i == 0 & j == 0) {
+                if (i === 0 && j === 0) {
                     lonlat.push(traitementlonlat[i].geometry.coordinates[j]);
-                } else if (!((lonlat[lonlat.length - 1][0] == traitementlonlat[i].geometry.coordinates[j][0]) && (lonlat[lonlat.length - 1][1] == traitementlonlat[i].geometry.coordinates[j][1]))) {
+                } else if (!((lonlat[lonlat.length - 1][0] === traitementlonlat[i].geometry.coordinates[j][0]) && (lonlat[lonlat.length - 1][1] === traitementlonlat[i].geometry.coordinates[j][1]))) {
                     lonlat.push(traitementlonlat[i].geometry.coordinates[j]);
                 }
             }
@@ -420,8 +422,8 @@
 
         let temp = '';
         const roadName = [];
-        const time = [];
-        const speed = [];
+        // const time = [];
+        // const speed = [];
         let traitementlonlat = [];
 
         temp = (WMEExpT.Trajets.objects[id].fromLocation != null) ? `${String(WMEExpT.Trajets.objects[id].fromLocation.street)}, ${String(WMEExpT.Trajets.objects[id].fromLocation.city)}, ${String(WMEExpT.Trajets.objects[id].fromLocation.country)}` : String(I18n.translations[I18n.locale].segment.address.none);
@@ -443,12 +445,12 @@
 
         for (let i = 0; i < traitementlonlat.length; i++) {
             for (let j = 0; j < traitementlonlat[i].geometry.coordinates.length; j++) {
-                if (i == 0 & j == 0) {
+                if (i === 0 && j === 0) {
                     lonlat.push(traitementlonlat[i].geometry.coordinates[j]);
                     itiWay += `<Placemark>\n<name>${roadName[0]}</name>\n<snippet></snippet>\n<description><![CDATA[<table>\n<tr><td>Longitude: ${lonlat[0][0]} </td></tr>\n<tr><td>Latitude: ${lonlat[0][1]} </td></tr>\n<tr><td>${lang[2]}: ${WMEExpT.Trajets.list[id].startTime}</td></tr>\n</table>]]></description>\n<LookAt>\n<longitude>${lonlat[0][0]}</longitude>\n<latitude>${lonlat[0][1]}</latitude>\n<altitude>0</altitude>\n<heading>0</heading>\n<tilt>66</tilt>\n<range>0</range>\n</LookAt>\n<TimeStamp><when>${WMEExpT.Trajets.list[id].startDate}T${WMEExpT.Trajets.list[id].startTime}Z</when></TimeStamp>\n\n<styleUrl>#route</styleUrl>\n<Point>\n<coordinates>${lonlat[0][0]},${lonlat[0][1]},0</coordinates>\n</Point>\n</Placemark>\n`;
-                } else if (!((lonlat[lonlat.length - 1][0] == traitementlonlat[i].geometry.coordinates[j][0]) && (lonlat[lonlat.length - 1][1] == traitementlonlat[i].geometry.coordinates[j][1]))) {
+                } else if (!((lonlat[lonlat.length - 1][0] === traitementlonlat[i].geometry.coordinates[j][0]) && (lonlat[lonlat.length - 1][1] === traitementlonlat[i].geometry.coordinates[j][1]))) {
                     lonlat.push(traitementlonlat[i].geometry.coordinates[j]);
-                    if ((i == traitementlonlat.length - 1) & (j == traitementlonlat[i].geometry.coordinates.length - 1)) { itiWay += `<Placemark>\n<name>${roadName[1]}</name>\n<snippet></snippet>\n<description><![CDATA[<table>\n<tr><td>Longitude: ${lonlat[lonlat.length - 1][0]} </td></tr>\n<tr><td>Latitude: ${lonlat[lonlat.length - 1][1]} </td></tr>\n<tr><td>${lang[2]}: ${WMEExpT.Trajets.list[id].endTime}</td></tr>\n</table>]]></description>\n<LookAt>\n<longitude>${lonlat[lonlat.length - 1][0]}</longitude>\n<latitude>${lonlat[lonlat.length - 1][1]}</latitude>\n<altitude>0</altitude>\n<heading>0</heading>\n<tilt>66</tilt>\n<range>0</range>\n</LookAt>\n<TimeStamp><when>${WMEExpT.Trajets.list[id].endDate}T${WMEExpT.Trajets.list[id].endTime}Z</when></TimeStamp>\n\n<styleUrl>#route</styleUrl>\n<Point>\n<coordinates>${lonlat[lonlat.length - 1][0]},${lonlat[lonlat.length - 1][1]},0</coordinates>\n</Point>\n</Placemark>\n`; } else { itiWay += `<Placemark>\n<name></name>\n<snippet></snippet>\n<description><![CDATA[<table>\n<tr><td>Longitude: ${lonlat[lonlat.length - 1][0]} </td></tr>\n<tr><td>Latitude: ${lonlat[lonlat.length - 1][1]} </td></tr>\n</table>]]></description>\n<LookAt>\n<longitude>${lonlat[lonlat.length - 1][0]}</longitude>\n<latitude>${lonlat[lonlat.length - 1][1]}</latitude>\n<altitude>0</altitude>\n<heading>0</heading>\n<tilt>66</tilt>\n<range>0</range>\n</LookAt>\n<styleUrl>#route</styleUrl>\n<Point>\n<coordinates>${lonlat[lonlat.length - 1][0]},${lonlat[lonlat.length - 1][1]},0</coordinates>\n</Point>\n</Placemark>\n`; }
+                    if ((i === traitementlonlat.length - 1) && (j === traitementlonlat[i].geometry.coordinates.length - 1)) { itiWay += `<Placemark>\n<name>${roadName[1]}</name>\n<snippet></snippet>\n<description><![CDATA[<table>\n<tr><td>Longitude: ${lonlat[lonlat.length - 1][0]} </td></tr>\n<tr><td>Latitude: ${lonlat[lonlat.length - 1][1]} </td></tr>\n<tr><td>${lang[2]}: ${WMEExpT.Trajets.list[id].endTime}</td></tr>\n</table>]]></description>\n<LookAt>\n<longitude>${lonlat[lonlat.length - 1][0]}</longitude>\n<latitude>${lonlat[lonlat.length - 1][1]}</latitude>\n<altitude>0</altitude>\n<heading>0</heading>\n<tilt>66</tilt>\n<range>0</range>\n</LookAt>\n<TimeStamp><when>${WMEExpT.Trajets.list[id].endDate}T${WMEExpT.Trajets.list[id].endTime}Z</when></TimeStamp>\n\n<styleUrl>#route</styleUrl>\n<Point>\n<coordinates>${lonlat[lonlat.length - 1][0]},${lonlat[lonlat.length - 1][1]},0</coordinates>\n</Point>\n</Placemark>\n`; } else { itiWay += `<Placemark>\n<name></name>\n<snippet></snippet>\n<description><![CDATA[<table>\n<tr><td>Longitude: ${lonlat[lonlat.length - 1][0]} </td></tr>\n<tr><td>Latitude: ${lonlat[lonlat.length - 1][1]} </td></tr>\n</table>]]></description>\n<LookAt>\n<longitude>${lonlat[lonlat.length - 1][0]}</longitude>\n<latitude>${lonlat[lonlat.length - 1][1]}</latitude>\n<altitude>0</altitude>\n<heading>0</heading>\n<tilt>66</tilt>\n<range>0</range>\n</LookAt>\n<styleUrl>#route</styleUrl>\n<Point>\n<coordinates>${lonlat[lonlat.length - 1][0]},${lonlat[lonlat.length - 1][1]},0</coordinates>\n</Point>\n</Placemark>\n`; }
                 }
             }
         }

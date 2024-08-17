@@ -85,7 +85,7 @@
     // **  INIT   **
     // *************
     function bootstrap() {
-        if (WazeWrap.Ready) {
+        if (W.userscripts?.state.isReady && WazeWrap.Ready) {
             initialize();
         } else {
             setTimeout(bootstrap, 200);
@@ -93,36 +93,6 @@
     }
 
     function initialize() {
-        //    Waze GUI needed
-
-        const userInfo = getId('user-info');
-        if (typeof (userInfo) === 'undefined') {
-            if (debug) { console.error('WME Export Trajet - WMEExpT_userInfo : NOK'); }
-            setTimeout(initialize, 500);
-            return;
-        }
-        const navTabs = getElementsByClassName('nav-tabs', userInfo)[0];
-        if (typeof (navTabs) === 'undefined') {
-            if (debug) { console.error('WME Export Trajet - WMEExpT_navTabs : NOK'); }
-            setTimeout(initialize, 500);
-            return;
-        }
-        const tabContent = getElementsByClassName('tab-content', userInfo)[0];
-        if (typeof (tabContent) === 'undefined') {
-            if (debug) { console.error('WME Export Trajet - WMEExpT_tabContent : NOK'); }
-            setTimeout(initialize, 500);
-            return;
-        }
-
-        const drivesPanel = getId('sidepanel-drives');
-        if (typeof (drivesPanel) === 'undefined') {
-            if (debug) { console.error('WME Export Trajet - WMEExpTDrives : NOK'); }
-            setTimeout(initialize, 1000);
-            return;
-        }
-
-        //= =====================================================
-
         // Translation
         if (I18n.locale === 'fr') {
             lang = ['Export', 'Selectionnez le trajet', 'Heure', 'Vitesse'];
@@ -143,9 +113,6 @@
       });
       */
         // reload after changing WME units
-        W.prefs.on('change:isImperial', () => {
-            buildUI();
-        });
 
         // Then running
         buildCSS();
@@ -182,7 +149,7 @@
         content += "<div class='divl' style='width:60px;'><input type='radio' id='kml' value='KML'>&nbspKML</div>";
         content += `<div class='divl' style='width:20px;'><a href='#' id='exportTrajet'><img style='width:20px;' title='${lang[0]}' src='data:image/png;base64,${iconExport}' /></a></div></div></div>`;
         addon.innerHTML = content;
-        WMEExpTDrives.appendChild(addon);
+        WMEExpTDrives.prepend(addon);
 
         getId('selectTrajet').onfocus = updateTrajetsList;
         getId('selectTrajet').onchange = ExpTrajet;
@@ -191,6 +158,7 @@
         generateTypeExport();
         log('html Ok');
     }
+
     function generateTypeExport() {
         const typeGpx = getId('gpx').checked;
         const typeKml = getId('kml').checked;

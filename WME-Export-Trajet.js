@@ -140,7 +140,7 @@
 
         const addon = document.createElement('div', 'ExpT-cotent');
         let content = "<div class='CSETcontent'>";
-        content += `<div style='float:left; margin-left:5px; margin-top:5px;'><b><a href='https://www.waze.com/forum/viewtopic.php?f=1316&t=170293' target='_blank'><u>${SCRIPT_NAME}</u></a></b> v${SCRIPT_VERSION}</div><br>`;
+        content += `<div style='float:left; margin-left:5px; margin-top:5px;'><b><u>${SCRIPT_NAME}</u></b> v${SCRIPT_VERSION}</div><br>`;
         content += "<div class='divl' style='width:240px; height:32px; margin-left:10px; margin-top:5px; text-align:left;'><select id='selectTrajet'>";// style='width:200px;'>";
         content += `<option value='0' id='0'>${lang[1]}</option>`;
         content += '</select></div><br>';
